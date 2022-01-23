@@ -1,0 +1,95 @@
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QLabel, QGroupBox, QHBoxLayout, QPushButton, QLineEdit
+from board import board
+
+
+class sideBar(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.font = QFont("Arial", 13)
+        self.sideBarVertical = QVBoxLayout()
+        # self.sideBarVertical.setSpacing(-2)
+        windowHeight = QWidget().height()
+        self.setStyleSheet("border: 1px solid black;"
+                           "font-size: 15px;")
+
+        self.board = board()
+
+        self.player1 = QGroupBox("Player 1")
+        self.player1.setStyleSheet("padding: 6px")
+        self.player1Vertical = QVBoxLayout()
+        self.player1Color = QLabel()
+        self.player1Color.setText("Color: ")
+        self.player1Color.setStyleSheet("border: 0px solid black")
+        self.player1StonesCaptured = QLabel()
+        self.player1StonesCaptured.setText("Stones captured: ")
+        self.player1StonesCaptured.setStyleSheet("border: 0px solid black")
+        self.player1StonesCapturedValue = QLabel()
+        self.player1StonesCapturedValue.setText(str(self.board.getWhiteStonesCaptured()))
+        self.player1StonesCapturedValue.setStyleSheet("border: 0px solid black")
+        self.player1TerritoriesCaptured = QLabel()
+        self.player1TerritoriesCaptured.setText("Territories captured: ")
+        self.player1TerritoriesCaptured.setStyleSheet("border: 0px solid black")
+        self.player1Vertical.addWidget(self.player1Color)
+        self.player1Vertical.addWidget(self.player1StonesCaptured)
+        self.player1Vertical.addWidget(self.player1StonesCapturedValue)
+        self.player1Vertical.addWidget(self.player1TerritoriesCaptured)
+        self.player1.setLayout(self.player1Vertical)
+        self.player1.setMinimumHeight(windowHeight / 3)
+
+        self.player2 = QGroupBox("Player 2")
+        self.player2.setStyleSheet("padding: 6px")
+        self.player2Vertical = QVBoxLayout()
+        self.player2Color = QLabel()
+        self.player2Color.setText("Color: ")
+        self.player2Color.setStyleSheet("border: 0px solid black")
+        self.player2StonesCaptured = QLabel()
+        self.player2StonesCaptured.setText("Stones captured: ")
+        self.player2StonesCaptured.setStyleSheet("border: 0px solid black")
+        self.player2TerritoriesCaptured = QLabel()
+        self.player2TerritoriesCaptured.setText("Territories captured: ")
+        self.player2TerritoriesCaptured.setStyleSheet("border: 0px solid black")
+        self.player2Vertical.addWidget(self.player2Color)
+        self.player2Vertical.addWidget(self.player2StonesCaptured)
+        self.player2Vertical.addWidget(self.player2TerritoriesCaptured)
+        self.player2.setLayout(self.player2Vertical)
+        self.player2.setMinimumHeight(windowHeight / 3)
+
+        self.extras = QGroupBox("")
+        self.extras.setStyleSheet("padding: 6px")
+        self.extrasVertical = QVBoxLayout()
+        self.roundTimer = QLabel()
+        self.roundTimer.setText("Round time: ")
+        self.roundTimer.setStyleSheet("border: 0px solid black")
+        self.roundTurn = QLabel()
+        self.roundTurn.setText("Round turn: ")
+        self.roundTurn.setStyleSheet("border: 0px solid black")
+        self.buttonGroup = QWidget()
+        self.buttonGroup.setStyleSheet("border: 0px solid black")
+        self.buttons = QHBoxLayout()
+        self.newGameButton = QPushButton("Pass")
+        self.newGameButton.setStyleSheet("border: 1px solid black")
+        self.newGameButton.clicked.connect(self.passTurn)
+        self.resetGameButton = QPushButton("Reset")
+        self.resetGameButton.setStyleSheet("border: 1px solid black")
+        self.resetGameButton.clicked.connect(self.resetGame)
+        self.buttons.addWidget(self.newGameButton)
+        self.buttons.addWidget(self.resetGameButton)
+        self.buttonGroup.setLayout(self.buttons)
+        self.extrasVertical.addWidget(self.roundTimer)
+        self.extrasVertical.addWidget(self.roundTurn)
+        self.extrasVertical.addWidget(self.buttonGroup)
+        self.extras.setLayout(self.extrasVertical)
+        self.extras.setMaximumHeight(windowHeight / 3)
+
+        self.sideBarVertical.addWidget(self.player1)
+        self.sideBarVertical.addWidget(self.player2)
+        self.sideBarVertical.addWidget(self.extras)
+
+        self.setLayout(self.sideBarVertical)
+
+    def passTurn(self):
+        self.board.passTurn()
+
+    def resetGame(self):
+        self.board.resetGame()
